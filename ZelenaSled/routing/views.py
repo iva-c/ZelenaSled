@@ -62,8 +62,11 @@ def get_paths(request):
             if not origin_coords or not destination_coords:
                 return JsonResponse({"error": "Origin and destination coordinates are required"}, status=400)
             
-            if not is_within_bbox(destination_coords) or not is_within_bbox(origin_coords):
+            if not is_within_bbox(destination_coords):
                 return JsonResponse({"error": "Destination coordinates are outside the allowed area (Ljubljana)"}, status=400)
+
+            if not is_within_bbox(origin_coords):
+                return JsonResponse({"error": "Starting coordinates are outside the allowed area (Ljubljana)"}, status=400)
 
 
             # Ensure the coordinates are in the correct format
