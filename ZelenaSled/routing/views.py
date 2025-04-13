@@ -112,6 +112,9 @@ def get_paths(request):
 
                 path_data = get_top_3_quietest_paths(path_data, noise_data)
 
+                if not path_data:
+                    return JsonResponse({"error": "Not enough noise data between chosen locations to estimate the best path"}, status=400)
+
             elif routing_mode is None:
 
                 # Get the indexes of the 3 shortest paths based on length
@@ -192,7 +195,6 @@ def get_top_3_quietest_paths(path_data, noise_data):
         list: List of path numbers with the lowest average noise levels.
     """
 
-
     def check_noise_data_for_path(path_data, noise_data, path_length):
         total_noise = 0
         count = 0
@@ -213,23 +215,22 @@ def get_top_3_quietest_paths(path_data, noise_data):
         path_length = path['length_m']
         return check_noise_data_for_path(path_geom, noise_data, path_length)
 
-
     # Process each path
+    valid_paths = []
     for path in path_data:
         avg_noise = calculate_average_noise(path)
-        path['average_noise'] = avg_noise  # Add average noise to path data
+        if avg_noise is not None:
+            path['average_noise'] = avg_noise
+            valid_paths.append(path)
 
     # Sort paths by average noise (ascending order)
-    sorted_paths = sorted(path_data, key=lambda x: x.get('average_noise', float('inf')))
-    top_3_paths = sorted_paths[:3]
+    sorted_paths = sorted(valid_paths, key=lambda x: x.get('average_noise', float('inf')))
 
+    # Check if top 3 paths exist
+    if sorted_paths:
+        top_3_paths = sorted_paths[:3]
+        return top_3_paths
+    else:
+        return None
    
     return sorted_paths
-
-
-
-
-
-
-
-

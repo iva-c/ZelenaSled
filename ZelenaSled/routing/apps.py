@@ -10,7 +10,8 @@ class RoutingConfig(AppConfig):
         self.unzip_json_file()
 
     def unzip_json_file(self):
-        # Define paths
+        '''Unzip large JSON file when starting the server'''
+        
         zip_file_path = os.path.join(self.path, 'data', 'avg_ndvi_h3_13.zip')
         extracted_file_path = os.path.join(self.path, 'data', 'avg_ndvi_h3_13.json')
 
