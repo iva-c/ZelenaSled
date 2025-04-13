@@ -14,6 +14,12 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
+from django.shortcuts import render
+
+def home(request):
+    return render(request, 'index.html')  # or whatever your main file is
+
+
 
 def convert_to_digraph(G_multi):
     '''Convert MultiGraph to DiGraph as the server is inizialized'''

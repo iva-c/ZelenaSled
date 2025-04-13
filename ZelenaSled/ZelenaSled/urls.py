@@ -21,4 +21,6 @@ from routing import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/get_paths/', views.get_paths, name='get_paths'),
+    path('', views.home, name='home'),
+
 ]
