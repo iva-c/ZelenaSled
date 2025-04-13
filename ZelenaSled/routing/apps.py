@@ -11,8 +11,8 @@ class RoutingConfig(AppConfig):
 
     def unzip_json_file(self):
         # Define paths
-        zip_file_path = os.path.join(self.path, 'routing', 'data', 'avg_ndvi_h3_13.json.zip')
-        extracted_file_path = os.path.join(self.path, 'routing', 'data', 'avg_ndvi_h3_13.json')
+        zip_file_path = os.path.join(self.path, 'data', 'avg_ndvi_h3_13.zip')
+        extracted_file_path = os.path.join(self.path, 'data', 'avg_ndvi_h3_13.json')
 
         # Only unzip if the JSON file doesn't already exist
         if not os.path.exists(extracted_file_path):
