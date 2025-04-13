@@ -51,9 +51,11 @@ We calculated the average NDVI values within **H3 hexagons at resolution 13** ac
 
 ### Noise – Quietness Score
 
-Noise data was downloaded from [Noise-Planet Data](https://data.noise-planet.org/noisecapture/). We used a [GeoJSON](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/data/Slovenia_Osrednjeslovenska_Ljubljana.tracks.geojson) file with polygons representing different noise zones and their associated levels.
+Noise data was downloaded from [Noise-Planet Data](https://data.noise-planet.org/noisecapture/). We used a [GeoJSON](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/data/Slovenia_Osrednjeslovenska_Ljubljana.tracks.geojson) file with **GPS tracks and their associated noise levels**.
 
-The app uses **Shapely** to efficiently compute intersections between path segments and noise polygons. This allows us to calculate an average noise score for each path using the function [`get_top_3_quietest_paths`](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/views.py), as demonstrated in this [exploratory script](https://github.com/iva-c/ZelenaSled/blob/f7d817477e1ad724063e4ad3278c4420edbbc067/analysis/average_noise_path.ipynb).
+Using GPS tracks instead of single measurement points allows for **better spatial continuity and coverage**. This makes it easier to match real paths with measured noise levels, reduces gaps between data points, and improves the reliability of the average noise estimates along a route.
+
+The app uses **Shapely** to efficiently compute intersections between path segments and noise tracks. This allows us to calculate an average noise score for each path using the function [`get_top_3_quietest_paths`](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/views.py), as demonstrated in this [exploratory script](https://github.com/iva-c/ZelenaSled/blob/f7d817477e1ad724063e4ad3278c4420edbbc067/analysis/average_noise_path.ipynb).
 
 To ensure valid evaluation, a path must have **at least one noise measurement per 500 meters**. The **3 quietest paths** out of the initial 25 shortest paths are returned if the user selects the noise preference.
 
