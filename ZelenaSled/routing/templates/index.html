@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fresh Air Route Finder</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="overlay-container">
+  <h2>🌿 ZelenaSled</h2>
+  <div class="inputs">
+    <input id="start" type="text" placeholder="Start: lat lon" />
+    <input id="end" type="text" placeholder="End: lat lon" />
+  </div>
+  <div class="commute-toggle">
+    <input type="radio" id="walk" name="commute" value="walk" checked>
+    <label for="walk" class="toggle-btn">
+      <span class="icon">🚶</span>
+    </label>
+  
+    <input type="radio" id="bike" name="commute" value="bike">
+    <label for="bike" class="toggle-btn">
+      <span class="icon">🚴</span>
+    </label>
+  </div>
+  
+</div>
+
+<div class="route-info" id="route-info">
+    <button class="close-btn" onclick="hideRouteInfo()">✕</button>
+    <h3>🚶 Route Info</h3>
+    <span id="info-text"></span>
+  </div>
+
+  <div class="actions-bar">
+    <button class="btn" onclick="drawRoute('vegetation')">🌿 Find greener paths</button>
+    <button class="btn" onclick="drawRoute('noise')">🔊 Find quiet paths</button>
+    <button class="btn secondary" onclick="resetMap()">Reset</button>
+  </div>
+  
+<div id="legend" class="legend-popup" style="display: none;">
+  <h3>Available Routes</h3>
+  <ul id="legend-list"></ul>
+  <button class="btn secondary" onclick="document.getElementById('legend').style.display='none'">Close</button>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'script.js' %}"></script>
+
+</body>
+</html>
