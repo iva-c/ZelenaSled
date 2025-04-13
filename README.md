@@ -51,9 +51,7 @@ We calculated the average NDVI values within **H3 hexagons at resolution 13** ac
 
 ### Noise – Quietness Score
 
-Noise data was downloaded from [Noise-Planet Data](https://data.noise-planet.org/noisecapture/). We used a [GeoJSON](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/data/Slovenia_Osrednjeslovenska_Ljubljana.tracks.geojson) file with **GPS tracks and their associated noise levels**.
-
-Using GPS tracks instead of single measurement points allows for **better spatial continuity and coverage**. This makes it easier to match real paths with measured noise levels, reduces gaps between data points, and improves the reliability of the average noise estimates along a route.
+Noise data was downloaded from [Noise-Planet Data](https://data.noise-planet.org/noisecapture/). We used the [`*.areas.geojson`](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/data/Slovenia_Osrednjeslovenska_Ljubljana.areas.geojson) file, which contains **aggregated community noise measurements** in hexagonal areas (15 m radius). For our quiet path ranking, we use **LA50** values, as it more robustly reflects typical ambient noise levels than LAeq, which can be skewed by brief loud events.
 
 The app uses **Shapely** to efficiently compute intersections between path segments and noise tracks. This allows us to calculate an average noise score for each path using the function [`get_top_3_quietest_paths`](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/views.py), as demonstrated in this [exploratory script](https://github.com/iva-c/ZelenaSled/blob/f7d817477e1ad724063e4ad3278c4420edbbc067/analysis/average_noise_path.ipynb).
 

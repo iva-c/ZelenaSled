@@ -117,7 +117,7 @@ def get_paths(request):
                 path_data = get_top_3_ndvi(path_data, ndvi_h3)
 
             elif routing_mode == "noise":
-                noise_data = gpd.read_file(os.path.join(settings.BASE_DIR, 'routing', 'data','Slovenia_Osrednjeslovenska_Ljubljana.tracks.geojson'))
+                noise_data = gpd.read_file(os.path.join(settings.BASE_DIR, 'routing', 'data','Slovenia_Osrednjeslovenska_Ljubljana.areas.geojson'))
 
                 path_data = get_top_3_quietest_paths(path_data, noise_data)
 
@@ -229,11 +229,11 @@ def get_top_3_quietest_paths(path_data, noise_data):
     for path in path_data:
         avg_noise = calculate_average_noise(path)
         if avg_noise is not None:
-            path['average_noise'] = avg_noise
+            path['la50'] = avg_noise
             valid_paths.append(path)
 
     # Sort paths by average noise (ascending order)
-    sorted_paths = sorted(valid_paths, key=lambda x: x.get('average_noise', float('inf')))
+    sorted_paths = sorted(valid_paths, key=lambda x: x.get('la50', float('inf')))
 
     # Check if top 3 paths exist
     if sorted_paths:
