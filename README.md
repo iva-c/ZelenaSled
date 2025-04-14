@@ -1,5 +1,5 @@
 # ZelenaSled
-App for planning green and quiet routes in Ljubljana 
+App for planning green, cool and quiet routes in Ljubljana 
 
 # 🌱 Zelena Sled
 
@@ -10,8 +10,8 @@ App for planning green and quiet routes in Ljubljana
 ## 👩‍💻 Authors
 
 - **Iva Černoša** – Data processing, backend development, routing algorithms, documentation
-- **Anja Ostovršnik** – Frontend development, UI/UX design
-- **Anja Hrvatič** – Data and methology research, sourcing noise dataset, presentation
+- **Anja Ostovršnik** – Frontend development, UI/UX design, temperature model
+- **Anja Hrvatič** – Data and methology research, sourcing noise dataset, presentation for hackathon
 
 ---
 
@@ -122,4 +122,4 @@ python manage.py runserver
 
 ### 5. Start planing paths
 
-🌍 Open your browser and head to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) — your greener, quieter journey through Ljubljana starts here!
+🌍 Open your browser and head to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) — your greener, cooler, quieter journey through Ljubljana starts here!
