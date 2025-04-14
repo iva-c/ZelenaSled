@@ -3,7 +3,7 @@ App for planning green and quiet routes in Ljubljana
 
 # 🌱 Zelena Sled
 
-**Zelena Sled** is a route planning app based on Django that helps pedestrians and cyclists in Ljubljana find greener and quieter paths. By considering vegetation and noise levels, it aims to improve well-being and reduce exposure to harmful urban conditions while promoting sustainable mobility.
+**Zelena Sled** is a route planning app based on Django that helps pedestrians and cyclists in Ljubljana find greener, cooler and quieter paths. By considering vegetation, temperature and noise levels, it aims to improve well-being and reduce exposure to harmful urban conditions while promoting sustainable mobility.
 
 ---
 
@@ -25,7 +25,7 @@ In urban environments like Ljubljana, people who choose eco-friendly travel opti
 
 While green areas have been proven to improve well-being and reduce stress, noise, and pollution exposure, existing navigation apps rarely consider these important environmental and health-related factors.
 
-Our app aims to fill that gap by planning **greener and quiter walking and cycling routes** in Ljubljana. By creating a **smart route planning system**, we offer users healthier and more pleasant paths—balancing efficiency with well-being.
+Our app aims to fill that gap by planning **greener, cooler and quiter walking and cycling routes** in Ljubljana. By creating a **smart route planning system**, we offer users healthier and more pleasant paths—balancing efficiency with well-being.
 
 
 🧭 **Routing Explanation**  
@@ -35,9 +35,11 @@ The app generates **25 shortest simple paths** between two location points using
 - If no routing preferences are selected, the top **3 shortest paths** are returned.  
 - If preferences are selected, the top **3 optimal paths** are returned based on the chosen criteria.
 
-There are **two routing preferences**:    
-- 🌿 **Vegetation**: Paths are ranked based on the **Normalized Difference Vegetation Index (NDVI)** within **H3 hexagons (resolution 13)** that the path crosses.    
-- 🔇 **Noise**: Paths are ranked based on the **average noise level** along the route, using spatial polygons with noise level data.   
+There are **three routing preferences**:  
+- 🌿 **Vegetation**: Paths are ranked based on the **Normalized Difference Vegetation Index (NDVI)** within **H3 hexagons (resolution 13)** that the path crosses.  
+- 🔇 **Noise**: Paths are ranked based on the **average noise level** along the route, using spatial polygons with noise level data.  
+- 🌡️ **Temperature**: Paths are ranked based on **Land Surface Temperature (LST)**, calculated from thermal satellite imagery and averaged within **H3 hexagons (resolution 13)** to prioritize cooler routes.
+
 
 ---
 
@@ -57,14 +59,56 @@ The app uses **Shapely** to efficiently compute intersections between path segme
 
 To ensure valid evaluation, a path must have **at least one noise measurement per 500 meters**. The **3 quietest paths** out of the initial 25 shortest paths are returned if the user selects the noise preference.
 
+### 🌡️ Temperature – Heat Exposure Score
+
+Land Surface Temperature (LST) was estimated using **Landsat 8 satellite data**, specifically from the **Thermal Infrared Sensor (TIRS) Band 10**. LST represents the temperature of the Earth’s surface and is derived from **thermal infrared radiation** detected by the satellite. For a reliable snapshot, we selected a **cloud-free image from July 17, 2024**, during peak summer conditions. LST values were calculated using standard radiometric conversion formulas, transforming the raw satellite data into temperature values.
+
+To integrate heat exposure into the app, we averaged LST values within **H3 hexagons at resolution 13**, covering the city of Ljubljana. These values were stored in a [JSON file](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/data/avg_ndvi_h3_13.zip) (automatically extracted during setup). Similar to vegetation and noise, each path’s **heat score** is computed by averaging the temperature of intersecting hexagons using the same function [`get_top_3_ndvi`](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/views.py), just different input. This enables users to choose **cooler paths** during hot weather, based on urban heat patterns.
+
+
 ---
 
 ## 🚫 Bounding Box Limitation
 
-The Zelena Sled app only returns routes **within the Ljubljana bounding box**. If the starting or destination point is outside this area, no route is returned.
+The Zelena Sled app only returns routes **within the Ljubljana [Ljubljana bounding box](https://github.com/iva-c/ZelenaSled/blob/435404a48190d61816f774c4eb39ab627a7b72ea/podatki/bounding_box_lj.csv)**. If the starting or destination point is outside this area, no route is returned.
 
 ---
 
 
+## 🚀 Running the App Locally
 
+To run the **ZelenaSled** Django app locally, follow these steps:
 
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/iva-c/ZelenaSled.git
+cd ZelenaSled
+```
+
+### 2. Create a virtual environment and install dependencies
+
+It's recommended to use a virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 3. Apply migrations and collect static files
+
+```bash
+python manage.py migrate
+python manage.py collectstatic
+```
+
+### 4. Run the development server
+
+```bash
+python manage.py runserver
+```
+
+### 5. Start planing paths
+
+🌍 Open your browser and head to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) — your greener, quieter journey through Ljubljana starts here!
