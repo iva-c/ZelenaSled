@@ -59,7 +59,7 @@ The app uses **Shapely** to efficiently compute intersections between path segme
 
 To ensure valid evaluation, a path must have **at least one noise measurement per 500 meters**. The **3 quietest paths** out of the initial 25 shortest paths are returned if the user selects the noise preference.
 
-### 🌡️ Temperature – Heat Exposure Score
+### Temperature – Heat Exposure Score
 
 Land Surface Temperature (LST) was estimated using **Landsat 8 satellite data**, specifically from the **Thermal Infrared Sensor (TIRS) Band 10**. LST represents the temperature of the Earth’s surface and is derived from **thermal infrared radiation** detected by the satellite. For a reliable snapshot, we selected a **cloud-free image from July 17, 2024**, during peak summer conditions. LST values were calculated using standard radiometric conversion formulas, transforming the raw satellite data into temperature values.
 
@@ -71,6 +71,17 @@ To integrate heat exposure into the app, we averaged LST values within **H3 hexa
 ## 🚫 Bounding Box Limitation
 
 The Zelena Sled app only returns routes **within the Ljubljana [Ljubljana bounding box](https://github.com/iva-c/ZelenaSled/blob/435404a48190d61816f774c4eb39ab627a7b72ea/podatki/bounding_box_lj.csv)**. If the starting or destination point is outside this area, no route is returned.
+
+---
+
+
+### 🖼️ Example Route Preview
+
+We use **[Leaflet](https://leafletjs.com/)** to visualize geospatial data 
+
+
+![A sample green path through Ljubljana](ZelenaSled/routing/data/Screenshot_example.png)
+
 
 ---
 
