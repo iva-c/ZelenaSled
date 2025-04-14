@@ -17,8 +17,7 @@ from django.conf import settings
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'index.html')  # or whatever your main file is
-
+    return render(request, 'index.html') 
 
 
 def convert_to_digraph(G_multi):
@@ -112,6 +111,12 @@ def get_paths(request):
 
             if routing_mode == "vegetation":
                 with open(os.path.join(settings.BASE_DIR, 'routing', 'data','avg_ndvi_h3_13.json'), 'r') as f:
+                    ndvi_h3 = json.load(f)
+
+                path_data = get_top_3_ndvi(path_data, ndvi_h3)
+
+            elif routing_mode == "heat":
+                with open(os.path.join(settings.BASE_DIR, 'routing', 'data','heat_h3.json'), 'r') as f:
                     ndvi_h3 = json.load(f)
 
                 path_data = get_top_3_ndvi(path_data, ndvi_h3)

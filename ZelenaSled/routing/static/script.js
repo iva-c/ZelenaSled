@@ -64,6 +64,9 @@ async function drawRoute(routingMode = "vegetation") {
     return;
   }
 
+  // ✅ Read selected commute mode
+  const commuteMode = document.querySelector('input[name="commute"]:checked').value;
+
   try {
     const res = await fetch("http://localhost:8000/api/get_paths/", {
       method: "POST",
@@ -71,7 +74,7 @@ async function drawRoute(routingMode = "vegetation") {
       body: JSON.stringify({
         origin_coords: [startLat, startLon],
         destination_coords: [endLat, endLon],
-        commute_mode: "walk",
+        commute_mode: commuteMode, // <-- now dynamic!
         routing_mode: routingMode
       })
     });
