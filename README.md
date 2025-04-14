@@ -70,7 +70,7 @@ To integrate heat exposure into the app, we averaged LST values within **H3 hexa
 
 ## 🚫 Bounding Box Limitation
 
-The Zelena Sled app only returns routes **within the Ljubljana [Ljubljana bounding box](https://github.com/iva-c/ZelenaSled/tree/main/ZelenaSled/routing/data/ljubljana_bounding_box.csv)**. If the starting or destination point is outside this area, no route is returned.
+The Zelena Sled app only returns routes **within the [Ljubljana bounding box](https://github.com/iva-c/ZelenaSled/tree/main/ZelenaSled/routing/data/ljubljana_bounding_box.csv)**. If the starting or destination point is outside this area, no route is returned.
 
 ---
 
