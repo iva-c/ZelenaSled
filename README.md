@@ -29,7 +29,7 @@ Our app aims to fill that gap by planning **greener, cooler and quiter walking a
 
 
 🧭 **Routing Explanation**  
-All routing is based on network graphs for bikes and pedestrians in Ljubljana, downloaded from OpenStreetMaps (fetched using this Python [script](https://github.com/iva-c/ZelenaSled/blob/7d6712204207def0e291f0b6f10d1ab337349aca/Cycle_walking_graphs_lj.ipynb)) using a bounding box for Ljubljana as defined by OpenStreetMaps.
+All routing is based on network graphs for bikes and pedestrians in Ljubljana, downloaded from OpenStreetMaps (fetched using this Python [script](https://github.com/iva-c/ZelenaSled/blob/7d6712204207def0e291f0b6f10d1ab337349aca/Cycle_walking_graphs_lj.ipynb)) using a [bounding box](https://github.com/iva-c/ZelenaSled/tree/main/ZelenaSled/routing/data/ljubljana_bounding_box.csv) for Ljubljana as defined by OpenStreetMaps.
 
 The app generates **25 shortest simple paths** between two location points using NetworkX.  
 - If no routing preferences are selected, the top **3 shortest paths** are returned.  
@@ -47,7 +47,7 @@ There are **three routing preferences**:
 
 ### NDVI – Vegetation Score
 
-NDVI was computed from **Sentinel-2’s Red and Near-Infrared (NIR) bands** ([script](https://github.com/iva-c/ZelenaSled/blob/f7d817477e1ad724063e4ad3278c4420edbbc067/analize/NDVI_by_H3.ipynb)). The [satellite data](https://download.dataspace.copernicus.eu/odata/v1/Products%2810164c43-3e57-4e32-a579-2cb6b8d93bea%29/%24value) (10m resolution, dated 19.7.2022) was downloaded from the **Copernicus Browser**, selected for its low cloud coverage (<5%) and rich summer vegetation.
+Normalized difference vegetation index (NDVI) was computed from **Sentinel-2’s Red and Near-Infrared (NIR) bands** ([script](https://github.com/iva-c/ZelenaSled/blob/f7d817477e1ad724063e4ad3278c4420edbbc067/analize/NDVI_by_H3.ipynb)). The [satellite data](https://download.dataspace.copernicus.eu/odata/v1/Products%2810164c43-3e57-4e32-a579-2cb6b8d93bea%29/%24value) (10m resolution, dated 19.7.2022) was downloaded from the **Copernicus Browser**, selected for its low cloud coverage (<5%) and rich summer vegetation.
 
 We calculated the average NDVI values within **H3 hexagons at resolution 13** across the Ljubljana bounding box and stored them in a [JSON file](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/data/avg_ndvi_h3_13.zip) (unzipped automatically on first Django `runserver`). This enables us to compute a path’s vegetation score by averaging the NDVI values of the hexagons it intersects, using the function [`get_top_3_ndvi`](https://github.com/iva-c/ZelenaSled/blob/main/ZelenaSled/routing/views.py), and return the **3 greenest paths**.
 
@@ -70,7 +70,7 @@ To integrate heat exposure into the app, we averaged LST values within **H3 hexa
 
 ## 🚫 Bounding Box Limitation
 
-The Zelena Sled app only returns routes **within the Ljubljana [Ljubljana bounding box](https://github.com/iva-c/ZelenaSled/blob/435404a48190d61816f774c4eb39ab627a7b72ea/podatki/bounding_box_lj.csv)**. If the starting or destination point is outside this area, no route is returned.
+The Zelena Sled app only returns routes **within the Ljubljana [Ljubljana bounding box](https://github.com/iva-c/ZelenaSled/tree/main/ZelenaSled/routing/data/ljubljana_bounding_box.csv)**. If the starting or destination point is outside this area, no route is returned.
 
 ---
 
